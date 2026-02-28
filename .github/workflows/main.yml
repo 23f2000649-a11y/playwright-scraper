@@ -1,10 +1,12 @@
 name: Playwright Scraper Workflow
 
 on:
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch: # Allows you to manually trigger the run from the Actions tab
+  push:
+    branches: [ main ] # Runs automatically when you commit code
 
 jobs:
-  run-scraper:
+  scrape-task:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -15,10 +17,12 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Playwright and Dependencies
+      - name: Install Dependencies
         run: |
           pip install playwright
+          # This command installs the browser and the system-level libraries it needs
           playwright install --with-deps chromium
 
-      - name: Run Scraper for 23f2000649@ds.study.iitm.ac.in
+      # CRITICAL: The step name MUST contain your email address for the grader
+      - name: Scrape for 23f2000649@ds.study.iitm.ac.in
         run: python scrape.py
