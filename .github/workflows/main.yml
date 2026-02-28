@@ -1,0 +1,24 @@
+name: Playwright Scraper Workflow
+
+on:
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  run-scraper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Playwright and Dependencies
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Run Scraper for 23f2000649@ds.study.iitm.ac.in
+        run: python scrape.py
